@@ -1,15 +1,8 @@
 class Rotor
-  MAPPINGS = {
-    #         ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    "I" =>   "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-    "II" =>  "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-    "III" => "BDFHJLCPRTXVZNYEIWGAKMUSQO",
-  }
-
   attr_reader :mapping
 
   def initialize(mapping:, start_position: "A")
-    @mapping = create_mapping_hash(mapping)
+    @mapping = create_mapping_array(mapping)
     @start_position = start_position
   end
 
@@ -18,7 +11,7 @@ class Rotor
   end
 
   def translate_right(letter)
-    (65 + @mapping.key(letter.ord - 65)).chr
+    (65 + @mapping.index(letter.ord - 65)).chr
   end
 
   def rotate
@@ -27,15 +20,15 @@ class Rotor
 
   private
 
-  def create_mapping_hash(mapping)
-    rotor_mappings_hash = {}
-    rotor_mappings = MAPPINGS[mapping]
+  def create_mapping_array(mapping)
+    rotor_mappings_array = []
+    rotor_mappings = mapping
 
-    (0...25).each do |pos|
-      rotor_mappings_hash[pos] = rotor_mappings[pos].ord - 65
+    (0..25).each do |pos|
+      rotor_mappings_array[pos] = rotor_mappings[pos].ord - 65
     end
 
-    rotor_mappings_hash
+    rotor_mappings_array
   end
 
 end
